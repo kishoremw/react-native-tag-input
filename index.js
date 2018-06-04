@@ -212,14 +212,16 @@ class TagInput<T> extends React.PureComponent<Props<T>, State> {
   }
 
   onKeyPress = (event: { nativeEvent: { key: string } }) => {
-    if (this.props.text !== '' || event.nativeEvent.key !== 'Backspace') {
-      return;
+    //
+    // Remove the tag only if the text is null and user presses Backspace.
+    //
+    if (this.props.text == '' && event.nativeEvent.key === 'Backspace') {
+      const tags = [...this.props.value];
+      tags.pop();
+      this.props.onChange(tags);
+      this.scrollToEnd();
+      this.focus();
     }
-    const tags = [...this.props.value];
-    tags.pop();
-    this.props.onChange(tags);
-    this.scrollToEnd();
-    this.focus();
   }
 
   focus = () => {
